@@ -20,7 +20,7 @@ namespace Domain
             manufacturer = "unknown";
         }
 
-        public Transport(int speed, string manufacturer, double weight, double height, Engine engine, int amount)
+        public Transport(int speed, string manufacturer, double weight, double height,         Engine engine, int amount)
         {
             this.speed = speed;
             this.manufacturer = manufacturer;
@@ -75,7 +75,7 @@ namespace Domain
                 height = value;
             }
         }
-        public Engine Egine
+        public Engine Engine
         {
             get
             {
@@ -98,7 +98,7 @@ namespace Domain
             }
         }
             
-        public  string getInformation()
+        public  virtual string getInformation()
         {
             return "Manufacturer: " + manufacturer
                 + "  , speed: " + speed
@@ -106,6 +106,16 @@ namespace Domain
                 + " , height: " + height
                 + " , engine: " + engine.getInformation()
                 + " , amount: " + amount;
+        }
+
+        public virtual string infoToWrite()
+        {
+            return manufacturer + "\t"
+                + speed + "\t"
+                + weight + "\t"
+                + height + "\t"
+                + engine.infoToWrite() + "\t"
+                + amount + "\t";
         }
         
 
@@ -115,7 +125,7 @@ namespace Domain
     {
         public WaterTransport() : base()
         {
-
+            engine = new Disel();
         }
         public WaterTransport(int speed, string manufacturer, double weight, double height, Engine engine, int amount) : base(speed,  manufacturer,  weight,  height,  engine,  amount)
         {
@@ -129,7 +139,7 @@ namespace Domain
     {
         public AirTransport() : base()
         {
-
+            engine = new ReactiveEngine();
         }
         public AirTransport(int speed, string manufacturer, double weight, double height, Engine engine, int amount) : base(speed, manufacturer, weight, height, engine, amount)
         {
@@ -141,7 +151,7 @@ namespace Domain
     {
         public LandTransport() : base()
         {
-
+            engine = new PetrolEngine();
         }
         public LandTransport(int speed, string manufacturer, double weight, double height, Engine engine, int amount) : base(speed, manufacturer, weight, height, engine, amount)
         {
@@ -189,26 +199,206 @@ namespace Domain
                 body = value;
             }
         }
+        public override string getInformation()
+        {
+            return base.getInformation()
+                + ", transmission: " + transmission
+                + ", body: " + body;
+        }
+        public override string infoToWrite()
+        {
+            return this.GetType().BaseType.Name + "\t"
+                 + this.GetType().Name + "\t"
+                 + base.infoToWrite()
+                 + "\t" + transmission
+                 + "\t" + body;
+        }
     }
 
     public class Airplane : AirTransport
     {
+        private string planebody;
+        private int maxHeight;
 
+
+        public Airplane() : base()
+        {
+            planebody = "unknown";
+        }
+
+        public Airplane(int speed, string manufacturer, double weight, double height, Engine engine, int amount, string planebody, int maxHeight) : base(speed, manufacturer, weight, height, engine, amount)
+        {
+            this.planebody = planebody;
+            this.maxHeight = maxHeight;
+        }
+        public string Planebody
+        {
+            get
+            {
+                return planebody;
+            }
+            set
+            {
+                planebody = value;
+            }
+        }
+        public int MaxHeight
+        {
+            get
+            {
+                return maxHeight;
+            }
+            set
+            {
+                maxHeight = value;
+            }
+        }
+        public override string getInformation()
+        {
+            return base.getInformation()
+                + ", planebody: " + planebody
+                + ", maxHeiht: " + maxHeight;
+        }
+        public override string infoToWrite()
+        {
+            return this.GetType().BaseType.Name + "\t"
+                 + this.GetType().Name + "\t"
+                 + base.infoToWrite()
+                 + "\t" + planebody
+                 + "\t" + maxHeight; 
+        }
     }
 
     public class Ship : WaterTransport
     {
+        private string shipbody;
 
+        public Ship() : base()
+        {
+            shipbody = "unknown";
+        }
+
+        public Ship(int speed, string manufacturer, double weight, double height, Engine engine, int amount, string shipbody) : base(speed, manufacturer, weight, height, engine, amount)
+        {
+            this.shipbody = shipbody;
+        }
+        public string Shipbody
+        {
+            get
+            {
+                return shipbody;
+            }
+            set
+            {
+                shipbody = value;
+            }
+        }
+        public override string getInformation()
+        {
+            return base.getInformation()
+                + ", shipbody: " + shipbody;  
+        }
+        public override string infoToWrite()
+        {
+            return this.GetType().BaseType.Name + "\t"
+                 + this.GetType().Name + "\t"
+                 + base.infoToWrite()
+                 + "\t" + shipbody;       
+        }
     }
 
     public class Train : LandTransport
     {
+        private string loadtype;
+        private int distance;
 
+        public Train() : base()
+        {
+            loadtype = "unknown";
+        }
+
+        public Train(int speed, string manufacturer, double weight, double height, Engine engine, int amount, string loadtype, int distance) : base(speed, manufacturer, weight, height, engine, amount)
+        {
+            this.loadtype = loadtype;
+            this.distance = distance;
+        }
+
+        public string Loadtype
+        {
+            get
+            {
+                return loadtype;
+            }
+            set
+            {
+                loadtype = value;
+            }
+        }
+        public int Distance
+        {
+            get
+            {
+                return distance;
+            }
+            set
+            {
+                distance = value;
+            }
+        }
+        public override string getInformation()
+        {
+            return base.getInformation()
+                + ", loadtype: " + loadtype
+                + ", distance: " + distance;
+        }
+        public override string infoToWrite()
+        {
+            return this.GetType().BaseType.Name + "\t"
+                 + this.GetType().Name + "\t"
+                 + base.infoToWrite()
+                 + "\t" + loadtype
+                 + "\t" + distance;
+        }
     }
 
+   
     public class Bike : LandTransport
     {
+        private string bodytype;
 
+        public Bike() : base()
+        {
+            bodytype = "unknown";
+        }
+
+        public Bike(int speed, string manufacturer, double weight, double height, Engine engine, int amount, string bodytype) : base(speed, manufacturer, weight, height, engine, amount)
+        {
+            this.bodytype = bodytype;
+
+        }
+        public string Bodytype
+        {
+            get
+            {
+                return bodytype;
+            }
+            set
+            {
+                bodytype = value;
+            }
+        }
+        public override string getInformation()
+        {
+            return base.getInformation()
+                + ", bodytype: " + bodytype;    
+        }
+        public override string infoToWrite()
+        {
+            return this.GetType().BaseType.Name + "\t"
+                 + this.GetType().Name + "\t"
+                 + base.infoToWrite()
+                 + "\t" + bodytype;
+        }
     }
 
     public abstract class Engine
@@ -249,25 +439,126 @@ namespace Domain
             }
         }
 
-        public  string getInformation()
+        public  virtual string getInformation()
         {
             return "Power: " + power
                 + " , manufacturer: " + manufacturer;
+        }
+        public virtual string infoToWrite()
+        {
+            return power + "\t"
+                + manufacturer + "\t";
         }
     }
 
     public class PetrolEngine : Engine
     {
+        private int cubes;
 
+        public PetrolEngine() : base()
+        {
+            
+        }
+        public PetrolEngine(int power, string manufacturer, int cubes) : base(power, manufacturer)
+        {
+            this.cubes = cubes;
+        }
+
+        public int Cubes
+        {
+            get
+            {
+                return cubes;
+            }
+            set
+            {
+                cubes = value;
+            }
+        }
+        public override string getInformation()
+        {
+            return base.getInformation()
+            + " , cubes: " + cubes;
+        }
+        public override string infoToWrite()
+        {
+            return this.GetType().Name + "\t"
+                 + base.infoToWrite()
+                 + "\t" + cubes;
+        }
     }
 
     public class Disel : Engine
     {
+        private int dCubes;
 
+        public Disel() : base()
+        {
+
+        }
+        public Disel(int power, string manufacturer, int dCubes) : base(power, manufacturer)
+        {
+            this.dCubes = dCubes;
+        }
+
+        public int DCubes
+        {
+            get
+            {
+                return dCubes;
+            }
+            set
+            {
+                dCubes = value;
+            }
+        }
+        public override string getInformation()
+        {
+            return base.getInformation()
+            + " , dCubes: " + dCubes;
+        }
+        public override string infoToWrite()
+        {
+            return this.GetType().Name + "\t"
+                 + base.infoToWrite()
+                + "\t" + dCubes;
+        }
     }
 
     public class ReactiveEngine : Engine
     {
+        private int VoiceCall;
 
+        public ReactiveEngine() : base()
+        {
+
+        }
+        public ReactiveEngine(int power, string manufacturer, int VoiceCall) : base(power, manufacturer)
+        {
+            this.VoiceCall = VoiceCall;
+        }
+
+        public int _VoiceCall
+        {
+            get
+            {
+                return VoiceCall;
+            }
+            set
+            {
+               VoiceCall = value;
+            }
+        }
+        public override string getInformation()
+        {
+            return base.getInformation()
+            + " , VoiceCall: " + VoiceCall;
+        }
+        public override string infoToWrite()
+        {
+            return this.GetType().Name + "\t"
+                 + base.infoToWrite()
+                + "\t" + VoiceCall;
+        }
     }
 }
